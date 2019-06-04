@@ -557,8 +557,8 @@ def iter_commits(parser, options):
             yield rev_parse('%s^{commit}' % (arg.strip(),))
 
 
-def cmd_run(parser, options):
-    test = Test(options.test)
+def cmd_run(parser, testname, options):
+    test = Test(testname)
 
     if verbosity >= 0:
         sys.stderr.write('Using test %s; command: %s\n' % (test.name, test.command))
@@ -960,7 +960,8 @@ def main(args):
     if options.subcommand == 'add':
         cmd_add(parser, options)
     elif options.subcommand == 'run':
-        cmd_run(parser, options)
+        for testname in options.test.split(","):
+            cmd_run(parser, testname, options)
     elif options.subcommand == 'range':
         parser.error('the \'range\' subcommand has been renamed to \'run\'.')
     elif options.subcommand == 'results':
